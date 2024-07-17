@@ -1,0 +1,21 @@
+FROM python:3.11.9-slim-bookworm
+
+WORKDIR /srv/sort
+
+# General setup
+COPY images/sort/apt-dependencies.txt ./
+RUN apt-get update && apt-get install -y $(cat apt-dependencies.txt)
+
+# This takes the bulk of the build time
+RUN \
+    --mount=type=cache,target=/var/cache/apt \
+    --mount=type=cache,target=/root/.cache \
+    pip install --upgrade torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu118
+
+# Installs other dependencies
+COPY images/sort/py-dependencies.txt ./
+RUN pip install --upgrade --no-cache-dir -r py-dependencies.txt
+
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+
+CMD [ "fastapi", "dev", "sort.py", "--port", "80", "--host", "0.0.0.0" ]

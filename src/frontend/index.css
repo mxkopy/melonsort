@@ -1,0 +1,25 @@
+form {
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+form > label {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+form button {
+    width: 75px;
+}
+
+song-entry {
+    display: flex;
+    flex-direction: row;   
+}
+
+song-entry > div, a, form {
+    width: 25vw;
+}

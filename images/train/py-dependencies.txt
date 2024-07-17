@@ -1,0 +1,4 @@
+librosa
+soundfile
+librespot
+fastapi

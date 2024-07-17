@@ -1,0 +1,7 @@
+FROM python:3.11.9-slim-bookworm
+
+WORKDIR /srv/frontend
+
+RUN pip install --upgrade fastapi pydantic requests
+
+CMD [ "fastapi", "dev", "frontend.py", "--port", "80", "--host", "0.0.0.0" ]

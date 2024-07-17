@@ -1,0 +1,52 @@
+services:
+
+  frontend:
+    build: 
+      dockerfile: ./images/frontend/dockerfile
+    env_file: .env
+    volumes: 
+      - ./src/frontend:/srv/frontend:shared
+    ports:
+      - 80:80
+
+  sort:
+    build: 
+      dockerfile: ./images/sort/dockerfile
+    env_file: .env
+    volumes: 
+      - ./src/sort:/srv/sort:shared
+      - hf:/hf
+      - data:/data
+      - embeds:/embeds
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+  train:
+    build:
+      dockerfile: ./images/train/dockerfile
+    command: /bin/bash start.sh
+    env_file: .env
+    volumes:
+      - ~/CLAP:/laion/CLAP:shared
+      - ./src/train:/srv/train:shared
+      - hf:/hf
+      - data:/data
+      - models:/models
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+volumes:
+  data:
+  hf:
+  embeds:
+  models:

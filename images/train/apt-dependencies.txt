@@ -1,0 +1,8 @@
+sudo
+curl
+wget
+git
+build-essential
+libpq-dev 
+python3-dev
+ffmpeg
