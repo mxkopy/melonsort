@@ -1,42 +1,17 @@
 services:
 
-  frontend:
+  melonsort:
     build: 
-      dockerfile: ./images/frontend/dockerfile
+      dockerfile: ./image/dockerfile
     env_file: .env
-    volumes: 
-      - ./src/frontend:/srv/frontend:shared
-    ports:
-      - 80:80
-
-  sort:
-    build: 
-      dockerfile: ./images/sort/dockerfile
-    env_file: .env
-    volumes: 
-      - ./src/sort:/srv/sort:shared
+    volumes:
+      - ./src:/srv/melonsort:shared
+      - /mnt/d/wavs:/wavs:shared
       - hf:/hf
       - data:/data
       - embeds:/embeds
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: 1
-              capabilities: [gpu]
-
-  train:
-    build:
-      dockerfile: ./images/train/dockerfile
-    command: /bin/bash start.sh
-    env_file: .env
-    volumes:
-      - ~/CLAP:/laion/CLAP:shared
-      - ./src/train:/srv/train:shared
-      - hf:/hf
-      - data:/data
-      - models:/models
+    ports:
+      - 80:80
     deploy:
       resources:
         reservations:
@@ -46,7 +21,6 @@ services:
               capabilities: [gpu]
 
 volumes:
-  data:
   hf:
+  data:
   embeds:
-  models:

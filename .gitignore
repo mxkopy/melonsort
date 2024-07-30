@@ -3,3 +3,4 @@ credentials.json
 src/train
 src/sort/librespot
 src/sort/spotify.py
+images/train

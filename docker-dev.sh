@@ -1,8 +1,10 @@
-docker run -it --entrypoint /bin/bash \
---mount src=$HOME/melonsort/src/$1,dst=/src,type=bind \
+docker run -it \
+--entrypoint /bin/bash \
+--env-file $PWD/.env \
+--mount src=$PWD/src,dst=/srv/melonsort,type=bind \
+--mount src=/mnt/d/wavs,dst=/wavs,type=bind \
 --volume melonsort_hf:/hf \
---volume melonsort_embeds:/embeds \
 --volume melonsort_data:/data \
---volume melonsort_models:/models \
+--volume melonsort_embeds:/embeds \
 --gpus all \
-melonsort-$1
+melonsort-melonsort
